@@ -58,6 +58,8 @@ void lasersRead()
     //  Serial.println("R out of range ");
   }
   lastLaserM = millis();
+  //CHANGES STATES. REALLY IMPORTANT
+  changeStates();
 }
 ///Changes the states of obstacles for decinion maging
 void changeStates()

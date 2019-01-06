@@ -20,35 +20,35 @@ void rightNeutral()
   digitalWrite(REnB, LOW);
 }
 
-void Forward(int s)
-{
-  constrain(s, 0, PWMLimit);
-  setLeft(s);
-  setRight(s);
-  TuF = true;
-}
-void Backwards(int s)
-{
-  constrain(s, 0, PWMLimit);
-  setLeft(-s);
-  setRight(-s);
-}
+// void Forward(int s)
+// {
+//   constrain(s, 0, PWMLimit);
+//   setLeft(s);
+//   setRight(s);
+//   TuF = true;
+// }
+// void Backwards(int s)
+// {
+//   constrain(s, 0, PWMLimit);
+//   setLeft(-s);
+//   setRight(-s);
+// }
 
-void turnRight(int s)
-{
-  constrain(s, 0, PWMLimit);
-  setLeft(s);
-  setRight(-s);
-  TuR = true;
-}
-void turnLeft(int s)
-{
-  constrain(s, 0, PWMLimit);
-  setLeft(-s);
-  setRight(s);
-  TuL = true;
-}
-
+// void turnRight(int s)
+// {
+//   constrain(s, 0, PWMLimit);
+//   setLeft(s);
+//   setRight(-s);
+//   TuR = true;
+// }
+// void turnLeft(int s)
+// {
+//   constrain(s, 0, PWMLimit);
+//   setLeft(-s);
+//   setRight(s);
+//   TuL = true;
+// }
+//Set left engine PWM
 void setLeft(int s)
 {
   constrain(s, -PWMLimit, PWMLimit);
@@ -67,7 +67,7 @@ void setLeft(int s)
   else
     leftNeutral();
 }
-
+//Set right engine PWM
 void setRight(int s)
 {
 
@@ -86,32 +86,33 @@ void setRight(int s)
   else
     rightNeutral();
 }
+// //UNUSED
+// void controlEngines(float LWs, float RWs)
+// {
 
-void controlEngines(float LWs, float RWs)
-{
+//   LWs = constrain(LWs, -SpeedLimit, SpeedLimit);
+//   RWs = constrain(RWs, -SpeedLimit, SpeedLimit);
+//   anglularVelocity = LWs - RWs;
+//   linearVelocity = (LWs + RWs) / 2; //PROBABLY WRONG
+//   float LWerror = LWs - LW_speed;
+//   float RWerror = RWs - RW_speed;
+//   LWint += LWerror;
+//   RWint += RWerror;
+//   LWdif = -1 * (LWerror - LW_Last_e);
+//   RWdif = -1 * (RWerror - RW_Last_e);
+//   LW_Last_e = LWerror;
+//   RW_Last_e = RWerror;
 
-  LWs = constrain(LWs, -SpeedLimit, SpeedLimit);
-  RWs = constrain(RWs, -SpeedLimit, SpeedLimit);
-  anglularVelocity = LWs - RWs;
-  linearVelocity = (LWs + RWs) / 2; //PROBABLY WRONG
-  float LWerror = LWs - LW_speed;
-  float RWerror = RWs - RW_speed;
-  LWint += LWerror;
-  RWint += RWerror;
-  LWdif = -1 * (LWerror - LW_Last_e);
-  RWdif = -1 * (RWerror - RW_Last_e);
-  LW_Last_e = LWerror;
-  RW_Last_e = RWerror;
+//   lPWM = (float)LWKp * LWerror + (float)LWKi * LWint + (float)LWKd * LWdif;
+//   rPWM = (float)RWKp * RWerror + (float)RWKi * RWint + (float)RWKd * RWdif;
 
-  lPWM = (float)LWKp * LWerror + (float)LWKi * LWint + (float)LWKd * LWdif;
-  rPWM = (float)RWKp * RWerror + (float)RWKi * RWint + (float)RWKd * RWdif;
+//   lPWM = constrain(lPWM, -PWMLimit, PWMLimit);
+//   rPWM = constrain(rPWM, -PWMLimit, PWMLimit);
 
-  lPWM = constrain(lPWM, -PWMLimit, PWMLimit);
-  rPWM = constrain(rPWM, -PWMLimit, PWMLimit);
-
-  setLeft((int)lPWM);
-  setRight((int)rPWM);
-}
+//   setLeft((int)lPWM);
+//   setRight((int)rPWM);
+// }
+//Control both engine speed
 void controlEnginesv2(float LWs, float RWs)
 {
 
@@ -137,27 +138,57 @@ void controlEnginesv2(float LWs, float RWs)
   setLeft((int)lPWM);
   setRight((int)rPWM);
 }
-void ForwardP(float s)
+//Control Left engine PID
+void controlEngineL(float LWs)
 {
-  constrain(s, 0, SpeedLimit);
-  controlEngines(s + 0.1 * TuL, s + 0.1 * TuR);
-}
-void BackwardsP(float s)
-{
-  constrain(s, 0, SpeedLimit);
-  controlEngines(-s, -s);
-}
+  float LWerror = LWs - LW_speed;
+  LWint += LWerror * (E_Read_Period / 1000);
+  //LWerror = constrain(LWerror, -8, 8);
+  // RWerror = constrain(RWerror, -8, 8);
+  if ((LWerror - LW_Last_e) != 0)
+    LWdif = (LWerror - LW_Last_e) / (E_Read_Period / 1000);
 
-void turnRightP(float s)
-{
-  constrain(s, 0, SpeedLimit);
-  controlEngines(s, -s);
+  LW_Last_e = LWerror;
+  lPWM = (float)LWKp * LWerror + (float)LWKi * LWint + (float)LWKd * LWdif;
+  lPWM = constrain(lPWM, -PWMLimit, PWMLimit);
+  setLeft((int)lPWM);
 }
-void turnLeftP(float s)
+void controlEngineR(float RWs)
 {
-  constrain(s, 0, SpeedLimit);
-  controlEngines(-s, s);
+  float RWerror = RWs - RW_speed;
+  RWint += RWerror * (E_Read_Period / 1000);
+  //LWerror = constrain(LWerror, -8, 8);
+  // RWerror = constrain(RWerror, -8, 8);
+
+  if ((RWerror - RW_Last_e) != 0)
+    RWdif = (RWerror - RW_Last_e) / (E_Read_Period / 1000);
+
+  RW_Last_e = RWerror;
+  rPWM = (float)RWKp * RWerror + (float)RWKi * RWint + (float)RWKd * RWdif;
+  rPWM = constrain(rPWM, -PWMLimit, PWMLimit);
+  setRight((int)rPWM);
 }
+// void ForwardP(float s)
+// {
+//   constrain(s, 0, SpeedLimit);
+//   controlEngines(s + 0.1 * TuL, s + 0.1 * TuR);
+// }
+// void BackwardsP(float s)
+// {
+//   constrain(s, 0, SpeedLimit);
+//   controlEngines(-s, -s);
+// }
+
+// void turnRightP(float s)
+// {
+//   constrain(s, 0, SpeedLimit);
+//   controlEngines(s, -s);
+// }
+// void turnLeftP(float s)
+// {
+//   constrain(s, 0, SpeedLimit);
+//   controlEngines(-s, s);
+// }
 void stopP()
 {
 
