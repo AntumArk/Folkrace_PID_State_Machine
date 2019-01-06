@@ -14,11 +14,11 @@ uint32_t lastAngleRead = 0;
 float Langle = 0;
 float Rangle = 0;
 //||\\//||\\ENCODERS//||\\//||\\E
-int knobLeft = 18;
-int knobRight = 2;
+//int knobLeft = 18;
+//int knobRight = 2;
 
-//Encoder knobLeft(18, 19);
-//Encoder knobRight(2, 3);
+Encoder knobLeft(18, 19);
+Encoder knobRight(2, 3);
 
 //Robot parameters
 float wheelDist = 0.08;
@@ -32,7 +32,7 @@ float positionLeft = 0;
 float positionRight = 0;
 float newLeft, newRight;
 long Last_E_Read_Time = 0;
-const uint8_t E_Read_Period = 70;
+const uint8_t E_Read_Period = 100;
 int encoderResolution = 5;
 
 //Speed and direction :D
@@ -46,8 +46,8 @@ float lPWM = 0, rPWM = 0;
 //MODES AND SLEnAETY
 float inX = 0; //Control parameters. Will be used for speed or PWM control
 float inY = 0;
-const uint8_t PWMLimit = 100;
-const float SpeedLimit = 2;
+const uint8_t PWMLimit = 120;
+const float SpeedLimit = 8;
 const float ConstantSpeed = 1.5;
 const uint8_t LED = LED_BUILTIN;
 const uint8_t indicator[] = {32, 34, 36, 38, 40, 42, 44, 46}; //2 for sysyem 6 for user
@@ -55,16 +55,16 @@ const uint8_t indicator[] = {32, 34, 36, 38, 40, 42, 44, 46}; //2 for sysyem 6 f
 /////////////////
 //PID parameters
 //Left Wheel speed PID
-const uint8_t LWKp = 9; //Best45
-const uint8_t LWKi = 1; //Best 15
-const uint8_t LWKd = 0;
+const float LWKp =7.19; //Best45
+const float LWKi = 0.03; //Best 15
+const float LWKd =8;
 float LWint = 0;
 float LWdif = 0;
 float LW_Last_e = 0;
 //Right Wheel speed PID
-const uint8_t RWKp = 9;
-const uint8_t RWKi = 1;
-const uint8_t RWKd = 0;
+const float RWKp = 7.19;
+const float RWKi =0.03;
+const float RWKd = 8;
 float RWint = 0;
 float RWdif = 0;
 float RW_Last_e = 0;
@@ -95,9 +95,9 @@ float R_dif = 0;
 float R_Last_e = 0;
 
 //PID TUNING
-const uint16_t osc_period = 4000; //This will be used for periodic goal changes
+const uint16_t osc_period = 20000; //This will be used for periodic goal changes
 uint32_t lastGoal = 0;
-float goal = 2; //m/s
+float goal = 4; //m/s
 
 //Flags and Logic
 const uint16_t Lthrsh = 250;
@@ -128,10 +128,10 @@ void setup()
 {
   Wire.begin();
   Serial.begin(115200);
-  Encoder_Setup();
+ // Encoder_Setup();
   encoderConstant = (wheelDiameter * 3.14159265359) / encoderResolution;
-  inverseEncoderConstant = requiredDistance / encoderConstant; //How many steps there are in meter
-  Serial.println("There are " + (String)inverseEncoderConstant + " steps in meter");
+//  inverseEncoderConstant = requiredDistance / encoderConstant; //How many steps there are in meter
+//  Serial.println("There are " + (String)inverseEncoderConstant + " steps in meter");
   pinMode(LED, OUTPUT);
   for (int i = 0; i < 8; i++)
     pinMode(indicator[i], OUTPUT);
@@ -172,8 +172,13 @@ void loop()
   Manage_Sensors();
   //Update indicators
   Manage_Indicators();
-  displayData();
+ 
   //Activate PIDs according to states
-  ActivatePID();
-  delay(50);
+ // ActivatePID();
+ Goal();
+ TunePID();
+  displayData();
+  //setLeft(100);
+// setRight(100);
+ // delay(50);
 }

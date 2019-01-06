@@ -1,4 +1,4 @@
-#include <Arduino.h>
+//#include <Arduino.h>
 void neutral()
 {
 
@@ -120,17 +120,15 @@ void controlEnginesv2(float LWs, float RWs)
   float LWerror = LWs - LW_speed;
   float RWerror = RWs - RW_speed;
 
-  LWint += LWerror * (E_Read_Period / 1000);
-  RWint += RWerror * (E_Read_Period / 1000);
+  LWint += LWerror;
+  RWint += RWerror ;
 
-  if ((LWerror - LW_Last_e) != 0)
-    LWdif = (LWerror - LW_Last_e) / (E_Read_Period / 1000);
-  if ((RWerror - RW_Last_e) != 0)
-    RWdif = (RWerror - RW_Last_e) / (E_Read_Period / 1000);
+    LWdif = (LWerror-LW_Last_e );
+    RWdif = (RWerror-RW_Last_e );
   LW_Last_e = LWerror;
   RW_Last_e = RWerror;
 
-  lPWM = (float)LWKp * LWerror + (float)LWKi * LWint + (float)LWKd * LWdif;
+  lPWM = (float)LWKp * LWerror + (float)LWKi * LWint +(float)LWKd * LWdif;
   rPWM = (float)RWKp * RWerror + (float)RWKi * RWint + (float)RWKd * RWdif;
   lPWM = constrain(lPWM, -PWMLimit, PWMLimit);
   rPWM = constrain(rPWM, -PWMLimit, PWMLimit);
@@ -194,7 +192,7 @@ void controlEngineR(float RWs)
 void stopP()
 {
 
-  controlEngines(0, 0);
+  controlEnginesv2(0, 0);
 }
 void breakes()
 {
@@ -218,5 +216,5 @@ void Goal()
 void TunePID()
 {
 
-  controlEngines(goal, goal);
+  controlEnginesv2(goal, goal);
 }

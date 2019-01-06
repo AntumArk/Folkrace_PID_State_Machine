@@ -1,5 +1,5 @@
-#include <Arduino.h>
-#include "V7_PID_State_Machine.ino"
+//#include <Arduino.h>
+//#include "V7_PID_State_Machine.ino"
 void Manage_Sensors()
 {
 
@@ -20,12 +20,12 @@ void Manage_Indicators()
   // bool DeFR = false;
   // bool DeLR = false;
   // bool DeFLR = false;
-  digitalWrite(indicator[0], DeFL);  //RED
-  digitalWrite(indicator[1], DeFLR); //RED
-  digitalWrite(indicator[2], DeFR);  //RED
-  digitalWrite(indicator[3], ObL);   //YELLOW
-  digitalWrite(indicator[4], ObF);   //GREEN
-  digitalWrite(indicator[5], ObR);   //BLUE
+  digitalWrite(indicator[3], DeFL);  //RED
+  digitalWrite(indicator[4], DeFLR); //RED
+  digitalWrite(indicator[5], DeFR);  //RED
+  digitalWrite(indicator[0], ObL);   //YELLOW
+  digitalWrite(indicator[1], ObF);   //GREEN
+  digitalWrite(indicator[2], ObR);   //BLUE
 }
 //Linear indication
 void Manage_Indicators(int current, int goal, int total)
@@ -51,28 +51,28 @@ void displayData()
 
   //Serial.print(millis() );
   //Serial.print('\t');
-  /* Serial.print(lPWM, 5);
+  //Serial.print(lPWM/5, 5);
+ // Serial.print('\t');
+//  Serial.print(rPWM, 5);
+//  Serial.print('\t');
+  Serial.print(LW_speed, 5);
   Serial.print('\t');
-  Serial.print(rPWM, 5);
-  Serial.print('\t');*/
-  //  Serial.print(LW_speed, 5);
-  //  Serial.print('\t');
-  //  Serial.print(RW_speed, 5);
-  //  Serial.print('\t');
+  Serial.print(RW_speed, 5);
+//  Serial.print('\t');
   // Serial.print(norm.XAxis);
-  // Serial.print('\t');
-  //  Serial.print(goal);
+   Serial.print('\t');
+   Serial.print(goal);
   //   Serial.print('\t');
   //    Serial.print(degrees(Langle), 5);
   //    Serial.print('\t');
   //    Serial.print(degrees(Rangle), 5);
   //    Serial.print('\t');
 
-  Serial.print(distances[0]);
-  Serial.print('\t');
-  Serial.print(distances[1]);
-  Serial.print('\t');
-  Serial.print(distances[2]);
+  //  Serial.print(distances[0]);
+  //  Serial.print('\t');
+  //  Serial.print(distances[1]);
+  //  Serial.print('\t');
+  //  Serial.print(distances[2]);
 
   Serial.println();
 }

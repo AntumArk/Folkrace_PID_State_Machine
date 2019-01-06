@@ -56,7 +56,7 @@ void StupidAvoidance()
     inY = ConstantSpeed;
   }
 
-  controlEngines(inX, inY);
+  controlEnginesv2(inX, inY);
 }
 void StupidAvoidancePIF()
 {
@@ -64,19 +64,19 @@ void StupidAvoidancePIF()
   if (ObL)
   {
 
-    controlEngines(0, 0);
+    controlEnginesv2(0, 0);
     resetIntegrators();
     delay(2000);
     while (distances[0] < 600)
     {
       Manage_Sensors();
       displayData();
-      controlEngines(-ConstantSpeed / 2, ConstantSpeed / 2);
+      controlEnginesv2(-ConstantSpeed / 2, ConstantSpeed / 2);
     }
   }
   if (ObR)
   {
-    controlEngines(0, 0);
+    controlEnginesv2(0, 0);
     resetIntegrators();
 
     delay(2000);
@@ -84,7 +84,7 @@ void StupidAvoidancePIF()
     {
       Manage_Sensors();
       displayData();
-      controlEngines(ConstantSpeed / 2, -ConstantSpeed / 2);
+      controlEnginesv2(ConstantSpeed / 2, -ConstantSpeed / 2);
     }
   }
 
@@ -93,70 +93,14 @@ void StupidAvoidancePIF()
     inX = ConstantSpeed;
     inY = ConstantSpeed;
 
-    controlEngines(inX, inY);
+    controlEnginesv2(inX, inY);
   }
 }
-void StupidAvoidancev3()
-{
-  Forward(90);
-  if (distances[1] <= 600)
-  {
-    turnLeft(80);
-  }
-  if (distances[1] <= 400 && distances[0] <= 400)
-  {
-    turnRight(80);
-  }
-  if (distances[1] <= 600 && distances[2] <= 400)
-  {
-    turnLeft(80);
-  }
-  if (distances[1] <= 600 && distances[0] <= 400 && distances[2] <= 400)
-  {
-    setLeft(-80);
-    setRight(-70);
-  }
-}
-void StupidAvoidancev3PID()
-{
-  ForwardP(ConstantSpeed);
-  TuF = true;
-  if (distances[1] <= 300)
-  {
-    turnLeftP(ConstantSpeed);
-    TuF = false;
-    TuL = true;
-  }
-  if (distances[1] <= 300 && distances[0] <= 300)
-  {
-    turnRightP(ConstantSpeed);
-    TuR = true;
-  }
-  if (distances[1] <= 300 && distances[2] <= 300)
-  {
-    turnLeftP(ConstantSpeed);
-    TuL = true;
-    TuR = false;
-  }
-  if (distances[1] <= 300 && distances[0] <= 300 && distances[2] <= 300)
-  {
-    TuL = true;
-    TuR = true;
-    //setLeft(-60);
-    //setRight(-50);
-    turnRightP(ConstantSpeed);
-  }
-}
-void AngleAvoidancePID()
-{
 
-  controlEngines(ConstantSpeed * !ObF + ConstantSpeed * cos(Rangle),
-                 ConstantSpeed * !ObF + ConstantSpeed * cos(Langle));
-}
 void DistanceAvoidancePID()
 {
 
-  controlEngines(ConstantSpeed * !ObF + ConstantSpeed * cos(Rangle),
+  controlEnginesv2(ConstantSpeed * !ObF + ConstantSpeed * cos(Rangle),
                  ConstantSpeed * !ObF + ConstantSpeed * cos(Langle));
 }
 
@@ -216,46 +160,46 @@ void ActivatePID()
   float Fspeed, Lspeed, Rspeed = 0;
   if (DeF)
   {
-    Fspeed = controlFrontDistance(distances[1]);                                   //TODO This should turn based on which setpoint is higher
-    Lspeed = constrain(Fspeed + controlLeftDistance(distances[0]), 0, SpeedLimit); //Constrain so it would definetely turn right
+    Fspeed = controlFrontDistance(Fthrsh);                                   //TODO This should turn based on which setpoint is higher
+    Lspeed = constrain(Fspeed + controlLeftDistance(Lthrsh), 0, SpeedLimit); //Constrain so it would definetely turn right
     controlEnginesv2(Lspeed, Fspeed);
   }
   if (DeL)
   {
 
-    Lspeed = controlLeftDistance(distances[0]);
+    Lspeed = controlLeftDistance(Lthrsh);
     controlEngineL(Lspeed);
     rightNeutral();
   }
   if (DeR)
   {
 
-    Rspeed = controlRightDistance(distances[2]);
+    Rspeed = controlRightDistance(Rthrsh);
     controlEngineR(Rspeed);
     leftNeutral();
   }
-  if (DeLF) //There may be a problem if we dont lock out from doing anything else
+  if (DeFL) //There may be a problem if we dont lock out from doing anything else
   {
-    Fspeed = controlFrontDistance(distances[1]);
-    Lspeed = constrain(Fspeed + controlLeftDistance(distances[0]), 0, SpeedLimit);
+    Fspeed = controlFrontDistance(Fthrsh);
+    Lspeed = constrain(Fspeed + controlLeftDistance(Lthrsh), 0, SpeedLimit);
     controlEnginesv2(Lspeed, Fspeed);
   }
-  if (DeRF) //There may be a problem if we dont lock out from doing anything else
+  if (DeFR) //There may be a problem if we dont lock out from doing anything else
   {
-    Fspeed = controlFrontDistance(distances[1]);
-    Rspeed = constrain(Fspeed + controlLeftDistance(distances[2]), 0, SpeedLimit);
+    Fspeed = controlFrontDistance(Fthrsh);
+    Rspeed = constrain(Fspeed + controlLeftDistance(Rthrsh), 0, SpeedLimit);
     controlEnginesv2(Fspeed, Rspeed);
   }
   if (DeLR) //There may be a problem if we dont lock out from doing anything else
   {
-    Lspeed = controlLeftDistance(distances[0]);
+    Lspeed = controlLeftDistance(Lthrsh);
     controlEngineL(Lspeed);
     rightNeutral();
   }
-  if (DeLRF) //There may be a problem if we dont lock out from doing anything else
+  if (DeFLR) //There may be a problem if we dont lock out from doing anything else
   {
-    Fspeed = controlFrontDistance(distances[1]);
-    Lspeed = constrain(Fspeed + controlLeftDistance(distances[0]), 0, SpeedLimit);
+    Fspeed = controlFrontDistance(Fthrsh);
+    Lspeed = constrain(Fspeed + controlLeftDistance(Lthrsh), 0, SpeedLimit);
     controlEnginesv2(Lspeed, Fspeed);
   }
   if (DeNone)
