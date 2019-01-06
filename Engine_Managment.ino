@@ -115,14 +115,14 @@ void setRight(int s)
 //Control both engine speed
 void controlEnginesv2(float LWs, float RWs)
 {
-
+  LWs = constrain(LWs, -SpeedLimit, SpeedLimit);
+  RWs = constrain(RWs, -SpeedLimit, SpeedLimit);
   float LWerror = LWs - LW_speed;
   float RWerror = RWs - RW_speed;
 
   LWint += LWerror * (E_Read_Period / 1000);
   RWint += RWerror * (E_Read_Period / 1000);
-  //LWerror = constrain(LWerror, -8, 8);
-  // RWerror = constrain(RWerror, -8, 8);
+
   if ((LWerror - LW_Last_e) != 0)
     LWdif = (LWerror - LW_Last_e) / (E_Read_Period / 1000);
   if ((RWerror - RW_Last_e) != 0)
@@ -141,6 +141,7 @@ void controlEnginesv2(float LWs, float RWs)
 //Control Left engine PID
 void controlEngineL(float LWs)
 {
+  LWs = constrain(LWs, -SpeedLimit, SpeedLimit);
   float LWerror = LWs - LW_speed;
   LWint += LWerror * (E_Read_Period / 1000);
   //LWerror = constrain(LWerror, -8, 8);
@@ -155,6 +156,7 @@ void controlEngineL(float LWs)
 }
 void controlEngineR(float RWs)
 {
+  RWs = constrain(RWs, -SpeedLimit, SpeedLimit);
   float RWerror = RWs - RW_speed;
   RWint += RWerror * (E_Read_Period / 1000);
   //LWerror = constrain(LWerror, -8, 8);

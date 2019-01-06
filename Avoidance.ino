@@ -234,7 +234,32 @@ void ActivatePID()
     controlEngineR(Rspeed);
     leftNeutral();
   }
-  Fspeed = controlFrontDistance(distances[1]);
-  Lspeed = controlLeftDistance(distances[0]);
-  Rspeed = controlRightDistance(distances[2]);
+  if (DeLF) //There may be a problem if we dont lock out from doing anything else
+  {
+    Fspeed = controlFrontDistance(distances[1]);
+    Lspeed = constrain(Fspeed + controlLeftDistance(distances[0]), 0, SpeedLimit);
+    controlEnginesv2(Lspeed, Fspeed);
+  }
+  if (DeRF) //There may be a problem if we dont lock out from doing anything else
+  {
+    Fspeed = controlFrontDistance(distances[1]);
+    Rspeed = constrain(Fspeed + controlLeftDistance(distances[2]), 0, SpeedLimit);
+    controlEnginesv2(Fspeed, Rspeed);
+  }
+  if (DeLR) //There may be a problem if we dont lock out from doing anything else
+  {
+    Lspeed = controlLeftDistance(distances[0]);
+    controlEngineL(Lspeed);
+    rightNeutral();
+  }
+  if (DeLRF) //There may be a problem if we dont lock out from doing anything else
+  {
+    Fspeed = controlFrontDistance(distances[1]);
+    Lspeed = constrain(Fspeed + controlLeftDistance(distances[0]), 0, SpeedLimit);
+    controlEnginesv2(Lspeed, Fspeed);
+  }
+  if (DeNone)
+  {
+    controlEnginesv2(ConstantSpeed, ConstantSpeed);
+  }
 }

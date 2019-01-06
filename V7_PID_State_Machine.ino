@@ -173,25 +173,7 @@ void loop()
   //Update indicators
   Manage_Indicators();
   displayData();
-
-  /* controlEngines(
-    ConstantSpeed+ConstantSpeed/2*(!ObR&&RWFirst&&!ObF)+ConstantSpeed/2*(ObL&&LWFirst&&ObF),
-    ConstantSpeed+ConstantSpeed/2*(ObR&&RWFirst&&ObF)+ConstantSpeed/2*(!ObL&&LWFirst&&!ObF)
-    );*/
-  //  controlEngines(-controlFrontDistance(300)+controlLeftDistance(300)+ConstantSpeed/2,-controlFrontDistance(300)+controlRightDistance(300)+ConstantSpeed/2);
-  //StupidAvoidancePIF();
-  // Goal();
-
-  //TunePID();
-  // StupidAvoidancev3();
-  //setLeft(255);
-  //setRight(255);
-  //StupidAvoidancev3PID();
-  // AngleAvoidancePID();
-
-  //delay(10);
-  // TuL = LWFirst;
-  // TuF = false;
-  // TuR = RWFirst;
+  //Activate PIDs according to states
+  ActivatePID();
   delay(50);
 }
