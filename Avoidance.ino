@@ -204,8 +204,36 @@ float controlFrontDistance(float F)
   return goal;
 }
 void ActivatePID()
-{
+{ // //Decision states
+  // bool DeF = false;
+  // bool DeL = false;
+  // bool DeR = false;
+  // bool DeFL = false;
+  // bool DeFR = false;
+  // bool DeLR = false;
+  // bool DeFLR = false;
+  // bool DeNone = true;
   float Fspeed, Lspeed, Rspeed = 0;
+  if (DeF)
+  {
+    Fspeed = controlFrontDistance(distances[1]);                                   //TODO This should turn based on which setpoint is higher
+    Lspeed = constrain(Fspeed + controlLeftDistance(distances[0]), 0, SpeedLimit); //Constrain so it would definetely turn right
+    controlEnginesv2(Lspeed, Fspeed);
+  }
+  if (DeL)
+  {
+
+    Lspeed = controlLeftDistance(distances[0]);
+    controlEngineL(Lspeed);
+    rightNeutral();
+  }
+  if (DeR)
+  {
+
+    Rspeed = controlRightDistance(distances[2]);
+    controlEngineR(Rspeed);
+    leftNeutral();
+  }
   Fspeed = controlFrontDistance(distances[1]);
   Lspeed = controlLeftDistance(distances[0]);
   Rspeed = controlRightDistance(distances[2]);
