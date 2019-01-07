@@ -101,7 +101,7 @@ void DistanceAvoidancePID()
 {
 
   controlEnginesv2(ConstantSpeed * !ObF + ConstantSpeed * cos(Rangle),
-                 ConstantSpeed * !ObF + ConstantSpeed * cos(Langle));
+                   ConstantSpeed * !ObF + ConstantSpeed * cos(Langle));
 }
 
 float controlLeftDistance(float L)
@@ -137,14 +137,14 @@ float controlFrontDistance(float F)
 {
   float goal = 0;
 
-  float error = F - distances[1];
+  float error =distances[1]- F  ;
   Dint += error;
   Ddif = error - D_Last_e;
   D_Last_e = error;
   goal = DKp * error + DKi * Dint + DKd * Ddif;
 
   goal = constrain(goal, -SpeedLimit, SpeedLimit);
-
+  Serial.print(goal);
   return goal;
 }
 void ActivatePID()
@@ -204,6 +204,9 @@ void ActivatePID()
   }
   if (DeNone)
   {
-    controlEnginesv2(ConstantSpeed, ConstantSpeed);
+    controlEnginesv2(ConstantSpeed, ConstantSpeed+1);
   }
+  Serial.print(Lspeed, 5);
+  Serial.print('\t');
+  Serial.print(Rspeed, 5);
 }

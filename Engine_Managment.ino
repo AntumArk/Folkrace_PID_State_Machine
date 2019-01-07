@@ -141,11 +141,11 @@ void controlEngineL(float LWs)
 {
   LWs = constrain(LWs, -SpeedLimit, SpeedLimit);
   float LWerror = LWs - LW_speed;
-  LWint += LWerror * (E_Read_Period / 1000);
+  LWint += LWerror;
   //LWerror = constrain(LWerror, -8, 8);
   // RWerror = constrain(RWerror, -8, 8);
   if ((LWerror - LW_Last_e) != 0)
-    LWdif = (LWerror - LW_Last_e) / (E_Read_Period / 1000);
+    LWdif = (LWerror - LW_Last_e) ;
 
   LW_Last_e = LWerror;
   lPWM = (float)LWKp * LWerror + (float)LWKi * LWint + (float)LWKd * LWdif;
@@ -156,12 +156,11 @@ void controlEngineR(float RWs)
 {
   RWs = constrain(RWs, -SpeedLimit, SpeedLimit);
   float RWerror = RWs - RW_speed;
-  RWint += RWerror * (E_Read_Period / 1000);
+  RWint += RWerror;
   //LWerror = constrain(LWerror, -8, 8);
   // RWerror = constrain(RWerror, -8, 8);
 
-  if ((RWerror - RW_Last_e) != 0)
-    RWdif = (RWerror - RW_Last_e) / (E_Read_Period / 1000);
+    RWdif = (RWerror - RW_Last_e) ;
 
   RW_Last_e = RWerror;
   rPWM = (float)RWKp * RWerror + (float)RWKi * RWint + (float)RWKd * RWdif;
@@ -209,12 +208,12 @@ void Goal()
 {
   if (millis() - lastGoal >= osc_period)
   {
-    goal *= -1.0;
+    goall *= -1.0;
     lastGoal = millis();
   }
 }
 void TunePID()
 {
 
-  controlEnginesv2(goal, goal);
+//  controlEnginesv2(goal, goal);
 }

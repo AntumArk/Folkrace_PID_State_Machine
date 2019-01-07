@@ -52,16 +52,16 @@ void displayData()
   //Serial.print(millis() );
   //Serial.print('\t');
   //Serial.print(lPWM/5, 5);
- // Serial.print('\t');
-//  Serial.print(rPWM, 5);
-//  Serial.print('\t');
-  Serial.print(LW_speed, 5);
-  Serial.print('\t');
-  Serial.print(RW_speed, 5);
-//  Serial.print('\t');
+  // Serial.print('\t');
+  //  Serial.print(rPWM, 5);
+  //  Serial.print('\t');
+  //  Serial.print(LW_speed, 5);
+  //  Serial.print('\t');
+  //  Serial.print(RW_speed, 5);
+  //  Serial.print('\t');
   // Serial.print(norm.XAxis);
-   Serial.print('\t');
-   Serial.print(goal);
+  //   Serial.print('\t');
+  //   Serial.print(goal);
   //   Serial.print('\t');
   //    Serial.print(degrees(Langle), 5);
   //    Serial.print('\t');
@@ -69,9 +69,10 @@ void displayData()
   //    Serial.print('\t');
 
   //  Serial.print(distances[0]);
-  //  Serial.print('\t');
-  //  Serial.print(distances[1]);
-  //  Serial.print('\t');
+    Serial.print('\t');
+  Serial.print(distances[1]);
+  Serial.print('\t');
+  Serial.print(Fthrsh);
   //  Serial.print(distances[2]);
 
   Serial.println();
