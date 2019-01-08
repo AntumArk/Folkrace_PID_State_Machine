@@ -85,13 +85,13 @@ void setRight(int s)
 
   constrain(s, -PWMLimit, PWMLimit);
   //rightNeutral();
-  if (s > 0)
+  if (s > 5)
   {if(s<minPWM)
     s=minPWM;
     analogWrite(REnA, abs(s));
     digitalWrite(REnB, LOW);
   }
-  else if (s < 0)
+  else if (s < 5)
   {if(s>-minPWM)
     s=minPWM;
     digitalWrite(REnA, LOW);

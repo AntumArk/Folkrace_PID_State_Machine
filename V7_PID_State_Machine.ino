@@ -16,7 +16,7 @@ float Rangle = 0;
 //||\\//||\\ENCODERS//||\\//||\\E
 //int knobLeft = 18;
 //int knobRight = 2;
-
+#define ENCODER_USE_INTERRUPTS
 Encoder knobLeft(18, 19);
 Encoder knobRight(2, 3);
 
@@ -32,7 +32,7 @@ float positionLeft = 0;
 float positionRight = 0;
 float newLeft, newRight;
 long Last_E_Read_Time = 0;
-const uint8_t E_Read_Period = 500;
+const uint8_t E_Read_Period = 300;
 int encoderResolution = 5;
 
 //Speed and direction :D
@@ -46,57 +46,57 @@ float lPWM = 0, rPWM = 0;
 //MODES AND SLEnAETY
 float inX = 0; //Control parameters. Will be used for speed or PWM control
 float inY = 0;
-const uint8_t PWMLimit = 150;
-const uint8_t minPWM = 60;
-const float SpeedLimit =3;
-const float ConstantSpeed = 1.5;
+const uint8_t PWMLimit = 130;
+const uint8_t minPWM = 40;
+const float SpeedLimit =4;
+const float ConstantSpeed = 2;
 const uint8_t LED = LED_BUILTIN;
 const uint8_t indicator[] = {32, 34, 36, 38, 40, 42, 44, 46}; //2 for sysyem 6 for user
 
 /////////////////
 //PID parameters
 //Left Wheel speed PID
-const float LWKp = 4; //Best7.19//30
-const float LWKi = 0.4; //Best 0.03
-const float LWKd = 8;//8
+const float LWKp = 4.19; //Best4
+const float LWKi = 0.12; //Best 0.4
+const float LWKd = 10;//10
 float LWint = 0;
 float LWdif = 0;
 float LW_Last_e = 0;
 //Right Wheel speed PID
-const float RWKp = 4;
-const float RWKi = 0.4;
-const float RWKd = 8;
+const float RWKp = 4.19;
+const float RWKi = 0.12;
+const float RWKd = 10;
 float RWint = 0;
 float RWdif = 0;
 float RW_Last_e = 0;
 
 //Front Distance PID
-float DKp = 0.3;
-float DKi =0.006;
-float DKd = 0.1;
+float DKp = 0.02;
+float DKi =0.0001;
+float DKd = 10;
 float Dint = 0;
 float Ddif = 0;
 float D_Last_e = 0;
-float D_Setpoint = 400;
+float D_Setpoint = 350;
 //Left Distance PID
-float LKp = 0.1;
-float LKi = 0.003;
-float LKd = 0.001;
-float L_Setpoint = 450;
+float LKp = 0.2;
+float LKi = 0.01;
+float LKd = 0.0001;
+float L_Setpoint = 400;
 float L_int = 0;
 float L_dif = 0;
 float L_Last_e = 0;
 //Right Distance PID
-float RKp =0.1;//0,2
-float RKi = 0.003;
-float RKd = 0.001;
-float R_Setpoint = 500;
+float RKp =2;//0,2
+float RKi = 0.01;
+float RKd = 0.0001;
+float R_Setpoint = 450;
 float R_int = 0;
 float R_dif = 0;
 float R_Last_e = 0;
 
 //PID TUNING
-const uint16_t osc_period = 20000; //This will be used for periodic goal changes
+const uint16_t osc_period = 2000; //This will be used for periodic goal changes
 uint32_t lastGoal = 0;
 float goall = 2; //m/s
 long startTime=0; // Thing to hold starting time for time based i activation
@@ -180,12 +180,12 @@ void loop()
 
   //Activate PIDs according to states
   ActivatePID();
- // Goal();
-  // TunePID(0,1);
+//  Goal();
+//   TunePID(1,1);
 // controlEnginesv2( controlFrontDistance(Fthrsh),controlFrontDistance(Fthrsh));
  
   displayData();
-//  setLeft(100);
+// setLeft(100);
 //   setRight(100);
-   delay(1);
+  // delay(1);
 }

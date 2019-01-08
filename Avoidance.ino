@@ -191,7 +191,7 @@ void ActivatePID()
     Rspeed = controlRightDistance(Rthrsh);
 
     controlEngineR(Rspeed);
-     rightNeutral();
+     leftNeutral();
   }
 
   if (DeFL) //There may be a problem if we dont lock out from doing anything else
@@ -220,7 +220,7 @@ void ActivatePID()
   }
   if (DeNone)
   {
-    controlEnginesv2(ConstantSpeed-0.5, ConstantSpeed + 0.5);
+    controlEnginesv2(ConstantSpeed, ConstantSpeed +2);
   }
      Serial.print(Lspeed, 5);
     Serial.print('\t');

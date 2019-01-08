@@ -3,7 +3,7 @@
 boolean lasersReady()
 {
   boolean a = false;
-  if (millis() - lastLaserM >= 30)
+  if (millis() - lastLaserM >= 10)
     a = true;
   return a;
 }
