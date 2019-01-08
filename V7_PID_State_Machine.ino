@@ -46,7 +46,7 @@ float lPWM = 0, rPWM = 0;
 //MODES AND SLEnAETY
 float inX = 0; //Control parameters. Will be used for speed or PWM control
 float inY = 0;
-const uint8_t PWMLimit = 120;
+const uint8_t PWMLimit = 150;
 const float SpeedLimit =3;
 const float ConstantSpeed = 1.5;
 const uint8_t LED = LED_BUILTIN;
@@ -78,17 +78,17 @@ float Ddif = 0;
 float D_Last_e = 0;
 float D_Setpoint = 400;
 //Left Distance PID
-float LKp = 0.01;
-float LKi = 0.0001;
-float LKd = 0.1;
+float LKp = 0.03;
+float LKi = 0.0003;
+float LKd = 0.001;
 float L_Setpoint = 450;
 float L_int = 0;
 float L_dif = 0;
 float L_Last_e = 0;
 //Right Distance PID
-float RKp =0.01;//0,2
-float RKi = 0.0001;
-float RKd = 0.1;
+float RKp =0.03;//0,2
+float RKi = 0.0003;
+float RKd = 0.001;
 float R_Setpoint = 500;
 float R_int = 0;
 float R_dif = 0;
