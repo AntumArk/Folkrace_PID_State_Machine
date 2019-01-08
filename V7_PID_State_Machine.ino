@@ -47,48 +47,48 @@ float lPWM = 0, rPWM = 0;
 float inX = 0; //Control parameters. Will be used for speed or PWM control
 float inY = 0;
 const uint8_t PWMLimit = 120;
-const float SpeedLimit = 4;
-const float ConstantSpeed = 2;
+const float SpeedLimit =3;
+const float ConstantSpeed = 1.5;
 const uint8_t LED = LED_BUILTIN;
 const uint8_t indicator[] = {32, 34, 36, 38, 40, 42, 44, 46}; //2 for sysyem 6 for user
 
 /////////////////
 //PID parameters
 //Left Wheel speed PID
-const float LWKp = 20.19; //Best7.19//30
-const float LWKi = 0.09; //Best 0.03
+const float LWKp = 30.19; //Best7.19//30
+const float LWKi = 0.12; //Best 0.03
 const float LWKd = 15;//8
 float LWint = 0;
 float LWdif = 0;
 float LW_Last_e = 0;
 //Right Wheel speed PID
 const float RWKp = 30.19;
-const float RWKi = 0.09;
+const float RWKi = 0.12;
 const float RWKd = 15;
 float RWint = 0;
 float RWdif = 0;
 float RW_Last_e = 0;
 
 //Front Distance PID
-float DKp = 0.8;
-float DKi =0.0001;
-float DKd = 10;
+float DKp = 0.02;
+float DKi =0.006;
+float DKd = 0.1;
 float Dint = 0;
 float Ddif = 0;
 float D_Last_e = 0;
 float D_Setpoint = 400;
 //Left Distance PID
-float LKp = 0.2;
+float LKp = 0.01;
 float LKi = 0.0001;
-float LKd = 2;
+float LKd = 0.1;
 float L_Setpoint = 450;
 float L_int = 0;
 float L_dif = 0;
 float L_Last_e = 0;
 //Right Distance PID
-float RKp = 0.9;//0,2
+float RKp =0.01;//0,2
 float RKi = 0.0001;
-float RKd = 2;
+float RKd = 0.1;
 float R_Setpoint = 500;
 float R_int = 0;
 float R_dif = 0;
@@ -98,6 +98,8 @@ float R_Last_e = 0;
 const uint16_t osc_period = 20000; //This will be used for periodic goal changes
 uint32_t lastGoal = 0;
 float goall = 4; //m/s
+long startTime=0; // Thing to hold starting time for time based i activation
+int stateChange=0;
 
 //Flags and Logic
 const uint16_t Lthrsh = 450;
@@ -165,6 +167,7 @@ void setup()
   //    delay(500);
   //     digitalWrite(indicator[5],LOW);
   //     delay(500);};
+  startTime=millis();
 }
 void loop()
 {
@@ -180,7 +183,7 @@ void loop()
 // controlEnginesv2( controlFrontDistance(Fthrsh),controlFrontDistance(Fthrsh));
  
   displayData();
-  //setLeft(100);
-  // setRight(100);
+//  setLeft(100);
+//   setRight(100);
   // delay(50);
 }

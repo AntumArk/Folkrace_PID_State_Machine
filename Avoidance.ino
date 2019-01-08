@@ -2,8 +2,11 @@
 void resetIntegrators()
 {
 
-  LWint = 0;
-  RWint = 0;
+  //  LWint = 0;
+  //RWint = 0;
+  L_int = 0;
+  R_int = 0;
+  Dint = 0;
 }
 void StupidAvoidance()
 {
@@ -123,7 +126,7 @@ float controlRightDistance(float R)
 {
   float goal = 0;
 
-  float error = R - distances[2];
+  float error = R - distances[2];//  float error = R - distances[2];
   R_int += error;
   R_dif = error - R_Last_e;
   R_Last_e = error;
@@ -137,27 +140,37 @@ float controlFrontDistance(float F)
 {
   float goal = 0;
 
-  float error =distances[1]- F  ;
+  float error = distances[1] - F  ;
   Dint += error;
   Ddif = error - D_Last_e;
   D_Last_e = error;
   goal = DKp * error + DKi * Dint + DKd * Ddif;
 
   goal = constrain(goal, -SpeedLimit, SpeedLimit);
-  Serial.print(goal);
+  // Serial.print(goal);
   return goal;
 }
 void ActivatePID()
 { // //Decision states
-  // bool DeF = false;
-  // bool DeL = false;
-  // bool DeR = false;
-  // bool DeFL = false;
-  // bool DeFR = false;
-  // bool DeLR = false;
-  // bool DeFLR = false;
-  // bool DeNone = true;
-  float Fspeed, Lspeed, Rspeed = 0;
+  int DDeF = DeF;
+  int DDeL = DeL;
+  int DDeR = DeR;
+  int DDeFL = DeFL;
+  int DDeFR = DeFR;
+  int DDeLR = DeLR;
+  int DDeFLR = DeFLR;
+  int DDeNone = DeNone;
+  int  newStateChange = DDeF + (DDeL << 1) + (DDeR << 2) + (DDeFL << 3) + (DDeFR << 4) + (DDeLR << 5) + (DDeFLR << 6) + (DDeNone << 7);
+  //Serial.print(newStateChange);
+  if (stateChange!=newStateChange)
+  { resetIntegrators();
+//    Serial.print("reset "); Serial.print(stateChange);
+//    Serial.print(" ");
+//    Serial.print(newStateChange);
+  }
+  stateChange = newStateChange;
+
+  float Fspeed = 0, Lspeed = 0, Rspeed = 0;
   if (DeF)
   {
     Fspeed = controlFrontDistance(Fthrsh);                                   //TODO This should turn based on which setpoint is higher
@@ -175,9 +188,11 @@ void ActivatePID()
   {
 
     Rspeed = controlRightDistance(Rthrsh);
+
     controlEngineR(Rspeed);
     leftNeutral();
   }
+
   if (DeFL) //There may be a problem if we dont lock out from doing anything else
   {
     Fspeed = controlFrontDistance(Fthrsh);
@@ -187,7 +202,7 @@ void ActivatePID()
   if (DeFR) //There may be a problem if we dont lock out from doing anything else
   {
     Fspeed = controlFrontDistance(Fthrsh);
-    Rspeed = constrain(Fspeed + controlLeftDistance(Rthrsh), 0, SpeedLimit);
+    Rspeed = constrain(Fspeed + controlRightDistance(Rthrsh), 0, SpeedLimit);
     controlEnginesv2(Fspeed, Rspeed);
   }
   if (DeLR) //There may be a problem if we dont lock out from doing anything else
@@ -204,9 +219,11 @@ void ActivatePID()
   }
   if (DeNone)
   {
-    controlEnginesv2(ConstantSpeed, ConstantSpeed+1);
+    controlEnginesv2(ConstantSpeed-0.5, ConstantSpeed + 2);
   }
-  Serial.print(Lspeed, 5);
-  Serial.print('\t');
-  Serial.print(Rspeed, 5);
+     Serial.print(Lspeed, 5);
+    Serial.print('\t');
+    Serial.print(Fspeed, 5);
+    Serial.print('\t');
+    Serial.print(Rspeed, 5);
 }
