@@ -12,24 +12,14 @@ void leftNeutral()
   digitalWrite(LEnA, LOW);
   digitalWrite(LEnB, LOW);
 }
-void leftStop()
-{
 
-  digitalWrite(LEnA, HIGH);
-  digitalWrite(LEnB, HIGH);
-}
 void rightNeutral()
 {
 
   digitalWrite(REnA, LOW);
   digitalWrite(REnB, LOW);
 }
-void rightStop()
-{
 
-  digitalWrite(REnA, HIGH);
-  digitalWrite(REnB, HIGH);
-}
 // void Forward(int s)
 // {
 //   constrain(s, 0, PWMLimit);
@@ -229,5 +219,9 @@ void Goal()
 void TunePID(int l,int r)
 {
 
+<<<<<<< HEAD
  controlEnginesv2(goall*l, goall*r);
+=======
+//  controlEnginesv2(goal, goal);
+>>>>>>> parent of ed04554... PID Tuning. Integrator reset
 }

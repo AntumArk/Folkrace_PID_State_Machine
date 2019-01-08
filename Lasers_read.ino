@@ -3,7 +3,11 @@
 boolean lasersReady()
 {
   boolean a = false;
+<<<<<<< HEAD
   if (millis() - lastLaserM >= 10)
+=======
+  if (millis() - lastLaserM >= 20)
+>>>>>>> parent of ed04554... PID Tuning. Integrator reset
     a = true;
   return a;
 }
@@ -32,7 +36,7 @@ void lasersRead()
     distances[0] = constrain(distances[0], 0, 800);
   }
   else
-  { distances[0] = 800;
+  {
     // Serial.println("L out of range ");
   }
   F.rangingTest(&measure, false); // pass in 'true' to get debug data printout!
@@ -43,7 +47,7 @@ void lasersRead()
     distances[1] = constrain(distances[1], 0, 800);
   }
   else
-  { distances[1] = 800;
+  {
     // Serial.println("F out of range ");
   }
   R.rangingTest(&measure, false); // pass in 'true' to get debug data printout!
@@ -54,7 +58,7 @@ void lasersRead()
     distances[2] = constrain(distances[2], 0, 800);
   }
   else
-  { distances[2] = 800;
+  {
     //  Serial.println("R out of range ");
   }
   lastLaserM = millis();

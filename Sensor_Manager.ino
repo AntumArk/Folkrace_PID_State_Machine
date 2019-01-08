@@ -51,6 +51,7 @@ void displayData()
 
   //Serial.print(millis() );
   //Serial.print('\t');
+<<<<<<< HEAD
 //  Serial.print(lPWM/5, 5);
 //   Serial.print('\t');
 //    Serial.print(rPWM/5, 5);
@@ -58,6 +59,15 @@ void displayData()
 //    Serial.print(LW_speed, 5);
 //    Serial.print('\t');
 //    Serial.print(RW_speed, 5);
+=======
+  //Serial.print(lPWM/5, 5);
+  // Serial.print('\t');
+  //  Serial.print(rPWM, 5);
+  //  Serial.print('\t');
+  //  Serial.print(LW_speed, 5);
+  //  Serial.print('\t');
+  //  Serial.print(RW_speed, 5);
+>>>>>>> parent of ed04554... PID Tuning. Integrator reset
   //  Serial.print('\t');
   // Serial.print(norm.XAxis);
 //     Serial.print('\t');
@@ -72,10 +82,10 @@ void displayData()
   Serial.print('\t');
         Serial.print(positionRight);
   //  Serial.print(distances[0]);
-//    Serial.print('\t');
-//  Serial.print(distances[1]);
-//  Serial.print('\t');
-//  Serial.print(Fthrsh);
+    Serial.print('\t');
+  Serial.print(distances[1]);
+  Serial.print('\t');
+  Serial.print(Fthrsh);
   //  Serial.print(distances[2]);
 
   Serial.println();
