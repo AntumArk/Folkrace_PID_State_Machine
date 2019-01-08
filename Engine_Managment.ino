@@ -65,14 +65,14 @@ void setLeft(int s)
   // leftNeutral();
 
   if (s > 0)
-  {if(s<60)
-    s=60;
+  {if(s<minPWM)
+    s=minPWM;
     analogWrite(LEnA, abs(s));
     digitalWrite(LEnB, LOW);
   }
   else if (s < 0)
-  {if(s<-60)
-    s=60;
+  {if(s>-minPWM)
+    s=minPWM;
     digitalWrite(LEnA, LOW);
     analogWrite(LEnB, abs(s));
   }
@@ -86,12 +86,14 @@ void setRight(int s)
   constrain(s, -PWMLimit, PWMLimit);
   //rightNeutral();
   if (s > 0)
-  {
+  {if(s<minPWM)
+    s=minPWM;
     analogWrite(REnA, abs(s));
     digitalWrite(REnB, LOW);
   }
   else if (s < 0)
-  {
+  {if(s>-minPWM)
+    s=minPWM;
     digitalWrite(REnA, LOW);
     analogWrite(REnB, abs(s));
   }
@@ -156,7 +158,7 @@ void controlEngineL(float LWs)
   LWint += LWerror;
   //LWerror = constrain(LWerror, -8, 8);
   // RWerror = constrain(RWerror, -8, 8);
-  if ((LWerror - LW_Last_e) != 0)
+  
     LWdif = (LWerror - LW_Last_e) ;
 
   LW_Last_e = LWerror;
@@ -224,8 +226,8 @@ void Goal()
     lastGoal = millis();
   }
 }
-void TunePID()
+void TunePID(int l,int r)
 {
 
- controlEnginesv2(goall, goall);
+ controlEnginesv2(goall*l, goall*r);
 }

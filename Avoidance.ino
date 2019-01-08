@@ -220,7 +220,7 @@ void ActivatePID()
   }
   if (DeNone)
   {
-    controlEnginesv2(ConstantSpeed-0.5, ConstantSpeed + 1);
+    controlEnginesv2(ConstantSpeed-0.5, ConstantSpeed + 0.5);
   }
      Serial.print(Lspeed, 5);
     Serial.print('\t');
