@@ -47,8 +47,8 @@ float lPWM = 0, rPWM = 0;
 float inX = 0; //Control parameters. Will be used for speed or PWM control
 float inY = 0;
 const uint8_t PWMLimit = 150;
-const float SpeedLimit =3;
-const float ConstantSpeed = 1.5;
+const float SpeedLimit =4;
+const float ConstantSpeed = 2;
 const uint8_t LED = LED_BUILTIN;
 const uint8_t indicator[] = {32, 34, 36, 38, 40, 42, 44, 46}; //2 for sysyem 6 for user
 
@@ -70,7 +70,7 @@ float RWdif = 0;
 float RW_Last_e = 0;
 
 //Front Distance PID
-float DKp = 0.02;
+float DKp = 0.04;
 float DKi =0.006;
 float DKd = 0.1;
 float Dint = 0;
@@ -79,7 +79,7 @@ float D_Last_e = 0;
 float D_Setpoint = 400;
 //Left Distance PID
 float LKp = 0.03;
-float LKi = 0.0003;
+float LKi = 0.003;
 float LKd = 0.001;
 float L_Setpoint = 450;
 float L_int = 0;
@@ -87,7 +87,7 @@ float L_dif = 0;
 float L_Last_e = 0;
 //Right Distance PID
 float RKp =0.03;//0,2
-float RKi = 0.0003;
+float RKi = 0.003;
 float RKd = 0.001;
 float R_Setpoint = 500;
 float R_int = 0;

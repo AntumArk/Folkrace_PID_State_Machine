@@ -65,12 +65,14 @@ void setLeft(int s)
   // leftNeutral();
 
   if (s > 0)
-  {
+  {if(s<60)
+    s=60;
     analogWrite(LEnA, abs(s));
     digitalWrite(LEnB, LOW);
   }
   else if (s < 0)
-  {
+  {if(s<-60)
+    s=60;
     digitalWrite(LEnA, LOW);
     analogWrite(LEnB, abs(s));
   }

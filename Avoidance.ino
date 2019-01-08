@@ -163,7 +163,8 @@ void ActivatePID()
   int  newStateChange = DDeF + (DDeL << 1) + (DDeR << 2) + (DDeFL << 3) + (DDeFR << 4) + (DDeLR << 5) + (DDeFLR << 6) + (DDeNone << 7);
   //Serial.print(newStateChange);
   if (stateChange!=newStateChange)
-  { resetIntegrators();
+  { 
+    resetIntegrators();
 //    Serial.print("reset "); Serial.print(stateChange);
 //    Serial.print(" ");
 //    Serial.print(newStateChange);
@@ -190,7 +191,7 @@ void ActivatePID()
     Rspeed = controlRightDistance(Rthrsh);
 
     controlEngineR(Rspeed);
-    leftNeutral();
+     rightNeutral();
   }
 
   if (DeFL) //There may be a problem if we dont lock out from doing anything else
@@ -219,7 +220,7 @@ void ActivatePID()
   }
   if (DeNone)
   {
-    controlEnginesv2(ConstantSpeed, ConstantSpeed + 1);
+    controlEnginesv2(ConstantSpeed-0.5, ConstantSpeed + 1);
   }
      Serial.print(Lspeed, 5);
     Serial.print('\t');
